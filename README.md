@@ -6,8 +6,7 @@ LogMan is a lightweight .NET console solution, inspired by the console input sys
 ![Uninterrupted logging](assets/demo.gif)
 
 ## Installation
-
-LogMan is available as a NuGet package, but you can also compile it from source.
+LogMan is available as a [NuGet package.](https://www.nuget.org/packages/LogMan/)
 
 ## Usage
 
