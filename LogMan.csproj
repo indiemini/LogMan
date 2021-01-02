@@ -5,12 +5,19 @@
     <Version>1.0.14</Version>
     <Authors>Brendan Chang</Authors>
     <Company></Company>
-    <PackageId></PackageId>
-    <Description></Description>
+    <PackageId>LogMan</PackageId>
+    <Description>LogMan is a lightweight .NET console solution, inspired by the console input system used in Minecraft server consoles. It allows multiple threads to output text to the console, without breaking any input currently being typed by a user.</Description>
     <Product>LogMan - a better way to do console stuff</Product>
     <Copyright>Copyright © 2021 Brendan Chang</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/MiniguyBrendan/LogMan</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MiniguyBrendan/LogMan</PackageProjectUrl>
+    <PackageReleaseNotes>1.0.14 Initial public release.
+1.0.12 Fix bad locking interaction with Linux build.
+1.0.1 Fix issue with certain OEM keyboards.
+1.0 Initial release.</PackageReleaseNotes>
+    <PackageTags>log, server, input, console, output, logman</PackageTags>
   </PropertyGroup>
 
 </Project>
