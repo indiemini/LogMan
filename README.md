@@ -11,7 +11,7 @@ LogMan is available as a [NuGet package.](https://www.nuget.org/packages/LogMan/
 ## Usage
 
 ```csharp
-using LogMan;
+using LogManager;
 using System;
 
 class Program
