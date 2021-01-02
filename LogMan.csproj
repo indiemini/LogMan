@@ -7,9 +7,10 @@
     <Company></Company>
     <PackageId></PackageId>
     <Description></Description>
-    <Product>LogMan - a better console</Product>
+    <Product>LogMan - a better way to do console stuff</Product>
     <Copyright>Copyright © 2021 Brendan Chang</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
 </Project>
