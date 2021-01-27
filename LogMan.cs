@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LogMan.Utils;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
@@ -9,18 +10,21 @@ namespace LogManager
     {
         private static bool _init;
         private static string _current;
+        private static int _historyIndex;
+        private static CircularBuffer<string> _history;
         private static object _l = new object();
         /// <summary>
         /// Prepares the LogMan for usage.
         /// Call LogMan.Initialize() at the entry point of your program.
         /// </summary>
-        public static void Initialize()
+        public static void Initialize(int commandHistory = 250)
         {
             lock (_l)
             {
                 if (!_init)
                 {
                     _init = true;
+                    _history = new CircularBuffer<string>(commandHistory);
                     _nextOutput(false);
                 }
             }
@@ -87,6 +91,40 @@ namespace LogManager
                 Console.SetCursorPosition(Console.CursorLeft + 1, Console.CursorTop);
                 _endIndex--;
             }
+        }
+        private static void _simUpArr()
+        {
+            // move back one in command history
+            string command = _history.Pull(++_historyIndex);
+            // add input caret back
+            _current = "> " + command;
+            // reset cur to 2 to overwrite any command text, but not the input caret
+            Console.SetCursorPosition(2, Console.CursorTop);
+            // output empty text to clear line
+            Console.Write(new string(' ', Console.BufferWidth - Console.CursorLeft - 2));
+            // reset cur to 2 to write new command text
+            Console.SetCursorPosition(2, Console.CursorTop);
+            // output new command text
+            Console.Write(_current.Substring(2));
+            // reset cur to end of line
+            _simEndKey();
+        }
+        private static void _simDownArr()
+        {
+            // move forward one in command history
+            string command = _history.Pull(--_historyIndex);
+            // add input caret back
+            _current = "> " + command;
+            // reset cur to 2 to overwrite any command text, but not the input caret
+            Console.SetCursorPosition(2, Console.CursorTop);
+            // output empty text to clear line
+            Console.Write(new string(' ', Console.BufferWidth - Console.CursorLeft - 2));
+            // reset cur to 2 to write new command text
+            Console.SetCursorPosition(2, Console.CursorTop);
+            // output new command text
+            Console.Write(_current.Substring(2));
+            // reset cur to end of line
+            _simEndKey();
         }
         private static void _simEndKey()
         {
@@ -164,6 +202,10 @@ namespace LogManager
                             _simLeftArr();
                         else if (ch.Key == ConsoleKey.RightArrow)
                             _simRightArr();
+                        else if (ch.Key == ConsoleKey.UpArrow)
+                            _simUpArr();
+                        else if (ch.Key == ConsoleKey.DownArrow)
+                            _simDownArr();
                         else if (ch.Key == ConsoleKey.Delete)
                             _simDelete();
                         else if (ch.Key == ConsoleKey.Backspace)
@@ -179,6 +221,10 @@ namespace LogManager
                             Console.Write(ch.KeyChar);
                             int ind = _current.Length - _endIndex;
                             _current = _current.Insert(ind, $"{ch.KeyChar}");
+                            // Clear history index
+                            _historyIndex = 0;
+                            // Hold current in history
+                            _history.Hold(_current.Substring(2));
                             // Re-output remaining chars
                             Console.Write(_current.Substring(ind + 1));
                             // Move cursor back to original location
@@ -192,6 +238,11 @@ namespace LogManager
             lock (_l)
             {
                 string ret = _current.Substring(2);
+                // Save input in history if it's a meaningful command
+                if (!string.IsNullOrWhiteSpace(ret)) _history.Push(ret);
+                // Save new history index
+                _historyIndex = 0;
+                // Clear line and re-output input caret
                 _nextOutput();
                 return ret;
             }
@@ -203,13 +254,19 @@ namespace LogManager
         {
             // First, deal with some oddball cases
             // where ConsoleKey gives stuff like "Oem2"
-            if (keyInfo.KeyChar == '?' ||
-                keyInfo.KeyChar == '/' ||
-                keyInfo.KeyChar == ';' ||
-                keyInfo.KeyChar == ':' ||
-                keyInfo.KeyChar == ',' ||
-                keyInfo.KeyChar == '.' ||
-                keyInfo.KeyChar == '@')
+            if (keyInfo.KeyChar == '?'  ||
+                keyInfo.KeyChar == '/'  ||
+                keyInfo.KeyChar == ';'  ||
+                keyInfo.KeyChar == ':'  ||
+                keyInfo.KeyChar == ','  ||
+                keyInfo.KeyChar == '.'  ||
+                keyInfo.KeyChar == '@'  ||
+                keyInfo.KeyChar == '"'  ||
+                keyInfo.KeyChar == '|'  ||
+                keyInfo.KeyChar == '`'  ||
+                keyInfo.KeyChar == '~'  ||
+                keyInfo.KeyChar == '\'' ||
+                keyInfo.KeyChar == '\\')
             {
                 return false;
             }
