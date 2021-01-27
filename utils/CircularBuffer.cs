@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace LogMan.Utils
+namespace LogManager.Utils
 {
     internal class CircularBuffer<T>
     {

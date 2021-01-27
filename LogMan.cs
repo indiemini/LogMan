@@ -1,4 +1,4 @@
-﻿using LogMan.Utils;
+﻿using LogManager.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
