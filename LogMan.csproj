@@ -2,23 +2,24 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>1.0.15</Version>
+    <Version>1.1.15</Version>
     <Authors>Brendan Chang</Authors>
     <Company></Company>
     <PackageId>LogMan</PackageId>
-    <Description>LogMan is a lightweight .NET console solution, inspired by the console input system used in Minecraft server consoles. It allows multiple threads to output text to the console, without breaking any input currently being typed by a user.</Description>
+    <Description>LogMan is a lightweight .NET console solution, inspired by the console input system used in Minecraft server consoles. It allows multiple threads to output text to the console, without breaking any input currently being typed by a user. It also supports a variable-size command history.</Description>
     <Product>LogMan - a better way to do console stuff</Product>
     <Copyright>Copyright © 2021 Brendan Chang</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
     <RepositoryUrl>https://github.com/MiniguyBrendan/LogMan</RepositoryUrl>
     <PackageProjectUrl>https://github.com/MiniguyBrendan/LogMan</PackageProjectUrl>
-    <PackageReleaseNotes>1.0.15 Fix namespace issue.
+    <PackageReleaseNotes>1.1.15 Support command history with circular buffer.
+1.0.15 Fix namespace issue.
 1.0.14 Initial public release.
 1.0.12 Fix bad locking interaction with Linux build.
 1.0.1 Fix issue with certain OEM keyboards.
 1.0 Initial release.</PackageReleaseNotes>
-    <PackageTags>log, server, input, console, output, logman</PackageTags>
+    <PackageTags>log, server, input, console, output, logman, terminal, command, command line</PackageTags>
   </PropertyGroup>
 
 </Project>
